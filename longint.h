@@ -1,9 +1,9 @@
 #ifndef LONGINT_H_
 #define LONGINT_H_
+#include "mytypes.h"
 
 class longint {
 
-    typedef long long int int64;
 
     private:
         std::vector<int64> vec;

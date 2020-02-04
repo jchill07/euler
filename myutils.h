@@ -1,3 +1,7 @@
+#ifndef MYUTILS_H_
+#define MYUTILS_H_
+#include <math.h>
+#include "mytypes.h"
 //{{{ isPrime
 bool isPrime(int64 num) {
     
@@ -26,4 +30,5 @@ bool isPrime(int64 num) {
 
 }
 //}}}
+#endif
 
