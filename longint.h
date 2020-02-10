@@ -1,5 +1,6 @@
 #ifndef LONGINT_H_
 #define LONGINT_H_
+#include <vector>
 #include "mytypes.h"
 
 class longint {
@@ -14,6 +15,9 @@ class longint {
 
         void initialize(int64 num) {
             vec[0] = num;
+            for (unsigned int ii = 1; ii < vec.size(); ii++) {
+                vec[ii] = 0;
+            }
         }
 
         void add(int64 num, unsigned int idx=0) {
@@ -51,6 +55,21 @@ class longint {
             }
         }
 
+        void mult(longint ll) {
+            printf("longint*longint does not work\n");
+            exit(-1);
+            longint tmp(this->vec.size());
+            for (unsigned int ii = 0; ii < ll.vec.size(); ii++) {
+                if (ll.vec[ii] == 0) continue;
+                tmp.initialize(ll.vec[ii]);
+                for (unsigned int jj = 0; jj < ii; jj++) {
+                    tmp.mult(mask); 
+                }
+                this->add(tmp);
+            }
+
+        }
+
         bool equal(longint ll) {
             for (unsigned int ii = 0; ii < vec.size(); ii++) {
                 if (vec[ii] != ll.vec[ii]) {
@@ -58,6 +77,16 @@ class longint {
                 }       
             }
             return true;
+        }
+
+        bool greaterthan(longint ll) {
+            for (unsigned int ii = vec.size(); ii > 0; ii--) {
+                unsigned int idx = ii-1;
+                if (vec[idx] != ll.vec[idx]) {
+                    return vec[idx] > ll.vec[idx];
+                }
+            }
+            return false;
         }
         
         void print(unsigned int to=999999) {

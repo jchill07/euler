@@ -2,6 +2,8 @@
 #define MYUTILS_H_
 #include <math.h>
 #include "mytypes.h"
+#include "longint.h"
+
 //{{{ isPrime
 bool isPrime(int64 num) {
     
@@ -30,5 +32,15 @@ bool isPrime(int64 num) {
 
 }
 //}}}
+
+void factorial(int64 num, longint &result) {
+    if (num <= 0) {
+        result.initialize(1);
+        return;
+    }
+    factorial(num-1, result);
+    result.mult(num);
+    return;
+}
 #endif
 
