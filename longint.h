@@ -8,15 +8,26 @@ class longint {
 
     private:
         std::vector<int64> vec;
-        const int64 mask = 10000000000;
+        const int64 mask = 1000000000;
 
     public:
         longint(int size) : vec(size, 0) { }
+        longint(const longint* ll) : vec(ll->vec.size(), 0) {
+            for (unsigned int ii = 0; ii < ll->vec.size(); ii++) {
+                vec[ii] = ll->vec[ii];
+            }
+        }
 
         void initialize(int64 num) {
-            vec[0] = num;
-            for (unsigned int ii = 1; ii < vec.size(); ii++) {
+            for (unsigned int ii = 0; ii < vec.size(); ii++) {
                 vec[ii] = 0;
+            }
+            this->add(num);
+        }
+
+        void initialize(longint &ll) {
+            for (unsigned int ii = 0; ii < vec.size(); ii++) {
+                vec[ii] = ll.vec[ii];
             }
         }
 
@@ -56,18 +67,31 @@ class longint {
         }
 
         void mult(longint ll) {
-            printf("longint*longint does not work\n");
-            exit(-1);
-            longint tmp(this->vec.size());
+            longint orig(this);
+            this->initialize(0);
+            longint tmp(vec.size());
+            //printf("ll         : ");
+            //ll.print(5);
             for (unsigned int ii = 0; ii < ll.vec.size(); ii++) {
-                if (ll.vec[ii] == 0) continue;
-                tmp.initialize(ll.vec[ii]);
-                for (unsigned int jj = 0; jj < ii; jj++) {
-                    tmp.mult(mask); 
+                if (ii > 4) {
+                    continue;
                 }
+                tmp.initialize(orig); 
+                //printf("tmp init %d: ", ii);
+                //tmp.print(5);
+                tmp.mult(ll.vec[ii]);
+                //printf("tmp mult %d: ", ii);
+                //tmp.print(5);
+                for (unsigned int jj = 0; jj < ii; jj++) {
+                    tmp.mult(mask);
+                    //printf("tmp mask %u: ", jj);
+                    //tmp.print(5);
+                }    
                 this->add(tmp);
-            }
+                //printf("tmp add   %u: ", ii);
+                //this->print(5);
 
+            } 
         }
 
         bool equal(longint ll) {
@@ -94,7 +118,7 @@ class longint {
                 to = vec.size();
             }
             for (unsigned int ii = to; ii > 0; ii--) {
-                printf("%010lld-", vec[ii-1]); 
+                printf("%09lld|", vec[ii-1]); 
             }
             printf("\n");
         }
